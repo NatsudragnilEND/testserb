@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Сербский Язык | Супер-Тест</title>
+    <title>Сербский Язык | Тест 3</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Подключаем скрипт для сочного конфетти -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         body { 
@@ -16,63 +15,45 @@
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
         }
-
-        /* Дизайн-система */
         .glass { 
             background: rgba(30, 41, 59, 0.4); 
             backdrop-filter: blur(20px); 
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08); 
         }
-        
         .bento-box { 
             background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
             border: 1px solid #334155; 
             border-radius: 28px; 
             transition: all 0.3s ease;
         }
-
         .bg-grid { 
             background-size: 30px 30px; 
             background-image: 
                 linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), 
                 linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px); 
         }
-
-        /* Ambient Glow */
         .glow-blue { 
-            position: fixed; width: 600px; height: 600px; 
-            background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, rgba(15,23,42,0) 70%); 
+            position: fixed; width: 500px; height: 500px; 
+            background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, rgba(15,23,42,0) 70%); 
             top: -100px; left: -100px; border-radius: 50%; pointer-events: none; z-index: -1;
         }
         .glow-purple { 
-            position: fixed; width: 600px; height: 600px; 
-            background: radial-gradient(circle, rgba(147,51,234,0.12) 0%, rgba(15,23,42,0) 70%); 
+            position: fixed; width: 500px; height: 500px; 
+            background: radial-gradient(circle, rgba(147,51,234,0.1) 0%, rgba(15,23,42,0) 70%); 
             bottom: -100px; right: -100px; border-radius: 50%; pointer-events: none; z-index: -1;
         }
-
-        /* Анимации вариантов */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-8px); }
             75% { transform: translateX(8px); }
         }
         .shake { animation: shake 0.4s ease-in-out; }
-
-        .option-btn {
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .option-btn { transition: all 0.2s; }
         .option-btn:active { transform: scale(0.96); }
-
-        .correct { background-color: #10b981 !important; border-color: #059669 !important; color: white !important; box-shadow: 0 0 15px rgba(16, 185, 129, 0.3); }
+        .correct { background-color: #10b981 !important; border-color: #059669 !important; color: white !important; }
         .wrong { background-color: #ef4444 !important; border-color: #b91c1c !important; color: white !important; animation: shake 0.4s ease-in-out; }
-
-        /* SVG Круговой Прогресс */
-        .circle-progress {
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
-            transition: stroke-dashoffset 1s ease-out;
-        }
+        .circle-progress { transform: rotate(-90deg); transform-origin: 50% 50%; transition: stroke-dashoffset 1s ease-out; }
     </style>
 </head>
 <body class="bg-grid min-h-screen flex flex-col justify-between">
@@ -80,68 +61,51 @@
     <div class="glow-blue"></div>
     <div class="glow-purple"></div>
 
-    <!-- Шапка (Статус) -->
-    <header class="glass sticky top-0 z-50 py-4 px-4 md:px-8 border-b border-slate-700/50 flex justify-between items-center">
+    <!-- Шапка -->
+    <header class="glass sticky top-0 z-50 py-4 px-4 border-b border-slate-700/50 flex justify-between items-center">
         <div>
-            <span class="text-xs uppercase tracking-widest text-slate-400 font-bold" id="quiz-badge">Супер-Тест</span>
-            <h1 class="text-lg md:text-xl font-extrabold text-white">Проверка Знаний 🇷🇸</h1>
+            <span class="text-xs uppercase tracking-widest text-slate-400 font-bold">Урок 3 • Тест</span>
+            <h1 class="text-lg font-extrabold text-white">Контроль знаний</h1>
         </div>
-        <div class="flex items-center gap-4">
-            <div id="timer" class="bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-600 font-mono text-sm md:text-base text-blue-400 font-bold">
-                00:00
-            </div>
-            <div class="text-xs md:text-sm text-slate-400 font-semibold" id="question-counter">
-                Вопрос 1 из 10
-            </div>
+        <div class="flex items-center gap-3">
+            <div id="timer" class="bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-600 font-mono text-sm text-blue-400 font-bold">00:00</div>
+            <div class="text-xs text-slate-400 font-semibold" id="question-counter">Вопрос 1 из 10</div>
         </div>
     </header>
 
-    <!-- Прогресс-бар -->
+    <!-- Прогресс -->
     <div class="w-full bg-slate-800 h-1.5 relative">
         <div id="progress-bar" class="bg-gradient-to-r from-blue-500 to-purple-500 h-full w-0 transition-all duration-300"></div>
     </div>
 
-    <!-- Основной Контейнер -->
+    <!-- Контент -->
     <main class="flex-1 w-full max-w-3xl mx-auto py-8 px-4 flex flex-col justify-center">
-        
-        <!-- Карточка Теста -->
         <div id="quiz-card" class="bento-box p-6 md:p-10 w-full relative">
             
-            <!-- Сцена 1: Экран Приветствия -->
+            <!-- Сцена 1: Старт -->
             <div id="start-screen" class="text-center py-6">
-                <div class="text-7xl md:text-8xl mb-6">🚀</div>
-                <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4 leading-tight">Проверь себя на 100%</h2>
-                <p class="text-base md:text-xl text-slate-400 mb-8 max-w-md mx-auto">Мы проверим правила чтения, специфичные буквы, коварные ложные слова и глагол "Бити". Готов?</p>
-                <button onclick="startQuiz()" class="w-full sm:w-auto px-12 py-5 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-extrabold text-xl shadow-lg hover:shadow-blue-500/20 active:scale-95 transition-all">
-                    Начать Тест
-                </button>
+                <div class="text-7xl mb-6">🎯</div>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4">Тест по Уроку 3</h2>
+                <p class="text-base md:text-xl text-slate-400 mb-8 max-w-md mx-auto">Проверим, насколько хорошо ты ориентируешься в родах существительных и множественном числе.</p>
+                <button onclick="startQuiz()" class="w-full sm:w-auto px-12 py-4 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-extrabold text-lg">Начать тест</button>
             </div>
 
-            <!-- Сцена 2: Вопросы (Изначально скрыты) -->
+            <!-- Сцена 2: Вопросы -->
             <div id="question-screen" class="hidden">
-                <div class="mb-6 md:mb-8">
-                    <h3 id="question-text" class="text-2xl md:text-3xl font-extrabold text-white leading-snug">Текст вопроса появится тут...</h3>
-                    <p id="question-sub" class="text-sm md:text-base text-slate-400 mt-2">Пояснение к вопросу...</p>
+                <div class="mb-6">
+                    <h3 id="question-text" class="text-2xl font-extrabold text-white">Текст вопроса...</h3>
+                    <p id="question-sub" class="text-sm text-slate-400 mt-2">Пояснение...</p>
                 </div>
-
-                <!-- Варианты ответов -->
-                <div id="options-container" class="flex flex-col gap-3">
-                    <!-- Кнопки генерируются динамически -->
-                </div>
-
-                <!-- Разбор правила (появляется после ответа) -->
+                <div id="options-container" class="flex flex-col gap-3"></div>
                 <div id="explanation-box" class="hidden mt-6 bg-slate-800/80 p-5 rounded-2xl border border-slate-700/50">
                     <h4 class="text-sm font-bold text-blue-400 uppercase tracking-wider mb-1">Разбор правила:</h4>
-                    <p id="explanation-text" class="text-sm md:text-base text-slate-300 leading-relaxed">Пояснение...</p>
-                    <button onclick="nextQuestion()" class="mt-4 px-6 py-2.5 bg-blue-500 text-white font-bold rounded-xl text-sm hover:bg-blue-400 active:scale-95 transition-transform">
-                        Далее ➔
-                    </button>
+                    <p id="explanation-text" class="text-slate-300 text-sm md:text-base leading-relaxed"></p>
+                    <button onclick="nextQuestion()" class="mt-4 px-6 py-2.5 bg-blue-500 text-white font-bold rounded-xl text-sm">Далее ➔</button>
                 </div>
             </div>
 
-            <!-- Сцена 3: Изумительный экран результатов -->
+            <!-- Сцена 3: Итоги -->
             <div id="result-screen" class="hidden flex flex-col items-center py-6 text-center">
-                <!-- SVG Progress Ring -->
                 <div class="relative w-48 h-48 mb-6">
                     <svg class="w-full h-full">
                         <circle cx="96" cy="96" r="80" class="stroke-slate-800 fill-none" stroke-width="12"></circle>
@@ -149,149 +113,55 @@
                     </svg>
                     <div class="absolute inset-0 flex flex-col items-center justify-center">
                         <span id="result-percent" class="text-4xl font-extrabold text-white">0%</span>
-                        <span id="result-points" class="text-xs text-slate-400 font-bold tracking-widest uppercase mt-1">0 / 0 баллов</span>
+                        <span id="result-points" class="text-xs text-slate-400 font-bold uppercase mt-1">0/0 баллов</span>
                     </div>
                 </div>
-
-                <h2 id="result-title" class="text-3xl md:text-5xl font-extrabold text-white mb-2">Отличный результат!</h2>
-                <p id="result-desc" class="text-base md:text-xl text-slate-300 mb-6 max-w-md px-4">Разбор твоих достижений...</p>
-
-                <!-- Статистика -->
+                <h2 id="result-title" class="text-3xl font-extrabold text-white mb-2">Итоги</h2>
+                <p id="result-desc" class="text-slate-300 mb-6 max-w-md"></p>
                 <div class="grid grid-cols-2 gap-4 w-full max-w-sm mb-8">
                     <div class="bg-slate-800/50 border border-slate-700 p-4 rounded-2xl">
-                        <div class="text-slate-400 text-xs font-bold uppercase mb-1">Время прохождения</div>
-                        <div id="result-time" class="text-xl md:text-2xl font-extrabold text-blue-400">00:00</div>
+                        <div class="text-slate-400 text-xs font-bold uppercase mb-1">Время</div>
+                        <div id="result-time" class="text-xl font-extrabold text-blue-400">00:00</div>
                     </div>
                     <div class="bg-slate-800/50 border border-slate-700 p-4 rounded-2xl">
-                        <div class="text-slate-400 text-xs font-bold uppercase mb-1">Твой Титул</div>
-                        <div id="result-rank" class="text-base md:text-lg font-extrabold text-purple-400 truncate">Студент</div>
+                        <div class="text-slate-400 text-xs font-bold uppercase mb-1">Оценка</div>
+                        <div id="result-rank" class="text-sm font-extrabold text-purple-400">Студент</div>
                     </div>
                 </div>
-
-                <!-- Кнопки перезапуска и просмотра ошибок -->
-                <div class="flex flex-col sm:flex-row gap-4 w-full max-w-sm">
-                    <button onclick="restartQuiz()" class="flex-1 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold rounded-2xl text-lg hover:shadow-lg active:scale-95 transition-all">Попробовать снова</button>
-                    <button onclick="toggleReview()" id="review-btn" class="flex-1 py-4 bg-slate-800 border border-slate-600 text-slate-200 font-bold rounded-2xl text-lg hover:bg-slate-700 active:scale-95 transition-all">Посмотреть ошибки</button>
+                <div class="flex gap-4 w-full max-w-sm">
+                    <button onclick="restartQuiz()" class="flex-1 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold rounded-2xl">Еще раз</button>
+                    <button onclick="toggleReview()" id="review-btn" class="flex-1 py-4 bg-slate-800 border border-slate-600 text-slate-200 font-bold rounded-2xl">Ошибки</button>
                 </div>
-
-                <!-- Блок детального просмотра ответов (по нажатию) -->
                 <div id="review-box" class="hidden w-full max-w-xl text-left mt-8 space-y-4">
-                    <h3 class="text-2xl font-bold text-white border-b border-slate-700 pb-2 mb-4">Детальный отчет:</h3>
-                    <div id="review-items" class="space-y-4">
-                        <!-- Сюда вставятся ответы скриптом -->
-                    </div>
+                    <h3 class="text-xl font-bold text-white border-b border-slate-700 pb-2 mb-4">Детальный разбор:</h3>
+                    <div id="review-items" class="space-y-4"></div>
                 </div>
             </div>
 
         </div>
     </main>
 
-    <!-- Подвал -->
-    <footer class="text-center py-4 text-xs text-slate-500 no-print">
-        Живели! Учи сербский с удовольствием 🇷🇸
-    </footer>
-
     <script>
-        // База вопросов
         const questions = [
-            {
-                text: "Как правильно произносится сербское слово «ДОБРО»?",
-                sub: "Проверяем знание правил редукции гласных.",
-                options: ["Как «дОбра» (с легким звуком «а» на конце)", "Четко как «дОбрО» (все гласные звучат ясно)", "С непроизносимой «О»"],
-                correct: 1,
-                explanation: "В сербском языке полностью отсутствует редукция гласных. Любая буква «О» всегда читается четко как «О», даже в безударных слогах."
-            },
-            {
-                text: "Какая латинская буква соответствует кириллической «Ђ ђ»?",
-                sub: "Проверяем сопоставление двух алфавитов.",
-                options: ["Ć ć", "Đ đ", "Ž ž"],
-                correct: 1,
-                explanation: "Кириллическая буква «Ђ ђ» (мягкое Дж) в латинице пишется как «Đ đ» (диграф Đ)."
-            },
-            {
-                text: "Что означает сербское слово «ПОНОС»?",
-                sub: "Осторожно, ложные друзья переводчика!",
-                options: ["Расстройство желудка", "Гордость", "Стул"],
-                correct: 1,
-                explanation: "«Понос» в сербском языке означает «Гордость». А вот то, о чем вы подумали по-русски, будет звучать как «пролив»."
-            },
-            {
-                text: "Выберите верный вариант: «Ми _____ из Србије».",
-                sub: "Проверяем спряжение глагола «Бити» (Быть) во множественном числе.",
-                options: ["си", "смо", "су"],
-                correct: 1,
-                explanation: "Для местоимения «Ми» (Мы) формой глагола-связки «Бити» является «смо». Ми смо из Србије — Мы из Сербии."
-            },
-            {
-                text: "Как переводится на русский фраза «Ја сам вредна»?",
-                sub: "Коварная лексика.",
-                options: ["Я капризная", "Я вредная для здоровья", "Я трудолюбивая"],
-                correct: 2,
-                explanation: "Сербское слово «вредна» означает «трудолюбивая» или «полезная». Ја сам вредна — Я трудолюбивая (говорит женщина)."
-            },
-            {
-                text: "Какая сербская латинская буква читается как русское «Ш»?",
-                sub: "Знание латинской «гаевицы».",
-                options: ["Š š", "Č č", "Ž ž"],
-                correct: 0,
-                explanation: "Буква «Š š» читается как русское «Ш» (например, Šuma — лес). «Č č» читается как «Ч», а «Ž ž» — как «Ж»."
-            },
-            {
-                text: "Что скажет серб, когда захочет сказать «ПРЯМО»?",
-                sub: "Ориентация в пространстве.",
-                options: ["Лево", "Право", "Десно"],
-                correct: 1,
-                explanation: "«Право» в сербском — это «Прямо». Если вам нужно направить человека прямо, вы скажете: «Идите право»."
-            },
-            {
-                text: "Выберите правильное сочетание: «Ви _____ студенти».",
-                sub: "Проверяем уважительную и множественную форму глагола «Бити».",
-                options: ["сте", "смо", "су"],
-                correct: 0,
-                explanation: "Для местоимения «Ви» (Вы) связкой является «сте». Ви сте студенти — Вы студенты."
-            },
-            {
-                text: "Как правильно написать на кириллице сербское имя «Đorđe»?",
-                sub: "Сложное сопоставление букв.",
-                options: ["Џорџе", "Ђорђе", "Ћорће"],
-                correct: 1,
-                explanation: "Буква «Đ» заменяет «Ђ», а «đ» — «ђ». Имя Đorđe на кириллице пишется как «Ђорђе»."
-            },
-            {
-                text: "Как сказать по-сербски «Спасибо»?",
-                sub: "Базовая вежливость.",
-                options: ["Молим", "Извини", "Хвала"],
-                correct: 2,
-                explanation: "«Хвала» — это спасибо. «Молим» — пожалуйста, а «Извини» — извините."
-            }
+            { text: "Какого рода слово «Кућа» (Дом)?", sub: "Ориентируемся по окончанию.", options: ["Мужской", "Женский", "Средний"], correct: 1, explanation: "Слово оканчивается на гласную «-а», значит, это женский род (как и в русском языке)." },
+            { text: "Какого рода слово «Пиво»?", sub: "Ориентируемся по окончанию.", options: ["Мужской", "Женский", "Средний"], correct: 2, explanation: "Слово оканчивается на гласную «-о», следовательно, это средний род." },
+            { text: "Какого рода слово «Прозор» (Окно)?", sub: "Ориентируемся по окончанию.", options: ["Мужской", "Женский", "Средний"], correct: 0, explanation: "Слово заканчивается на согласную букву «-р», это типичный показатель мужского рода." },
+            { text: "Как образуется множественное число женского рода (например, «кућа»)?", sub: "Изменение гласной.", options: ["Кући", "Куће", "Кућави"], correct: 1, explanation: "Окончание «-а» существительных женского рода меняется на гласную «-е». Получается «куће» (дома)." },
+            { text: "Какое окончание получает средний род в мн.ч. (например, «село»)?", sub: "Похоже на русский!", options: ["Сели", "Селе", "Села"], correct: 2, explanation: "Существительные среднего рода во множественном числе получают окончание «-а». Село ➔ Села (точно так же, как в русском: сёла)." },
+            { text: "Как правильно перевести «Ово је пиво»?", sub: "Связка ед. числа.", options: ["Это пиво", "То пиво", "Они пьют пиво"], correct: 0, explanation: "«Ово» переводится как «Это» (для предметов поблизости), «је» — связка единственного числа. Ово је пиво — Это пиво." },
+            { text: "Как правильно сказать: «Это города»?", sub: "Помним про связку множественного числа.", options: ["Ово је градови", "Ово су градови", "Ово сам градови"], correct: 1, explanation: "Во множественном числе мы обязательно меняем связку «је» на «су». Ово су градови — Это города." },
+            { text: "Образуйте множественное число слова «жена»:", sub: "Женский род.", options: ["жени", "жене", "женави"], correct: 1, explanation: "Слово женского рода «жена» во множественном числе меняет окончание «-а» на «-е» ➔ «жене» (женщины)." },
+            { text: "Какое множественное число у слова «студент»?", sub: "Мужской род, длинное слово.", options: ["студентове", "студенти", "студента"], correct: 1, explanation: "Для многосложных слов мужского рода во множественном числе просто добавляется окончание «-и» ➔ «студенти»." },
+            { text: "Какого рода слово «море»?", sub: "Проверяем средний род.", options: ["Мужской", "Женский", "Средний"], correct: 2, explanation: "Оканчивается на гласную «-е», это показатель среднего рода." }
         ];
 
-        let currentQuestion = 0;
-        let score = 0;
-        let timerInterval;
-        let secondsElapsed = 0;
-        let userAnswers = []; // Хранит выбор пользователя: { questionIndex, selectedOption, isCorrect }
+        let currentQuestion = 0; let score = 0; let timerInterval; let secondsElapsed = 0; let userAnswers = [];
 
-        // Запуск квиза
         function startQuiz() {
             document.getElementById('start-screen').classList.add('hidden');
             document.getElementById('question-screen').classList.remove('hidden');
-            resetStats();
-            startTimer();
-            showQuestion();
-        }
-
-        // Обнуление
-        function resetStats() {
-            currentQuestion = 0;
-            score = 0;
-            secondsElapsed = 0;
-            userAnswers = [];
+            currentQuestion = 0; score = 0; secondsElapsed = 0; userAnswers = [];
             document.getElementById('progress-bar').style.width = '0%';
-        }
-
-        // Таймер
-        function startTimer() {
             clearInterval(timerInterval);
             timerInterval = setInterval(() => {
                 secondsElapsed++;
@@ -299,218 +169,109 @@
                 const secs = String(secondsElapsed % 60).padStart(2, '0');
                 document.getElementById('timer').innerText = `${mins}:${secs}`;
             }, 1000);
+            showQuestion();
         }
 
-        // Отображение вопроса
         function showQuestion() {
             document.getElementById('explanation-box').classList.add('hidden');
-            
             const q = questions[currentQuestion];
-            
-            // Счётчик
             document.getElementById('question-counter').innerText = `Вопрос ${currentQuestion + 1} из ${questions.length}`;
-            
-            // Прогресс-бар
-            const pct = (currentQuestion / questions.length) * 100;
-            document.getElementById('progress-bar').style.width = `${pct}%`;
-
-            // Тексты
+            document.getElementById('progress-bar').style.width = `${(currentQuestion / questions.length) * 100}%`;
             document.getElementById('question-text').innerText = q.text;
             document.getElementById('question-sub').innerText = q.sub;
 
-            // Рендер вариантов
-            const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = '';
-
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
             q.options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
-                btn.className = "option-btn w-full text-left p-5 bg-slate-800/60 border border-slate-700 hover:border-slate-500 rounded-2xl text-lg md:text-xl font-medium text-slate-200 active:scale-98";
+                btn.className = "option-btn w-full text-left p-4 bg-slate-800/60 border border-slate-700 rounded-xl text-lg font-bold";
                 btn.innerText = opt;
                 btn.onclick = () => selectOption(idx, btn);
-                optionsContainer.appendChild(btn);
+                container.appendChild(btn);
             });
         }
 
-        // Выбор варианта
         function selectOption(idx, btn) {
             const q = questions[currentQuestion];
-            const optionsContainer = document.getElementById('options-container');
-            const buttons = optionsContainer.querySelectorAll('button');
-
-            // Запрещаем повторный клик
+            const buttons = document.getElementById('options-container').querySelectorAll('button');
             buttons.forEach(b => b.disabled = true);
 
             const isCorrect = (idx === q.correct);
-            userAnswers.push({
-                questionIndex: currentQuestion,
-                selectedOption: idx,
-                isCorrect: isCorrect
-            });
+            userAnswers.push({ questionIndex: currentQuestion, selectedOption: idx, isCorrect: isCorrect });
 
-            if (isCorrect) {
-                btn.classList.add('correct');
-                score++;
-            } else {
-                btn.classList.add('wrong');
-                // Подсвечиваем верный
-                buttons[q.correct].classList.add('correct');
-            }
+            if (isCorrect) { btn.classList.add('correct'); score++; } 
+            else { btn.classList.add('wrong'); buttons[q.correct].classList.add('correct'); }
 
-            // Показываем разбор правила
             document.getElementById('explanation-text').innerText = q.explanation;
             document.getElementById('explanation-box').classList.remove('hidden');
         }
 
-        // Переход дальше
         function nextQuestion() {
             currentQuestion++;
-            if (currentQuestion < questions.length) {
-                showQuestion();
-            } else {
-                finishQuiz();
-            }
+            if (currentQuestion < questions.length) showQuestion();
+            else finishQuiz();
         }
 
-        // Финиш
         function finishQuiz() {
             clearInterval(timerInterval);
             document.getElementById('question-screen').classList.add('hidden');
             document.getElementById('result-screen').classList.remove('hidden');
-            
-            // Итоговый прогресс бар
             document.getElementById('progress-bar').style.width = '100%';
 
-            // Считаем проценты
-            const percent = Math.round((score / questions.length) * 100);
-            document.getElementById('result-percent').innerText = `${percent}%`;
+            const pct = Math.round((score / questions.length) * 100);
+            document.getElementById('result-percent').innerText = `${pct}%`;
             document.getElementById('result-points').innerText = `${score} / ${questions.length} баллов`;
+            document.getElementById('result-ring').style.strokeDashoffset = 502 - (502 * pct) / 100;
 
-            // Заполняем SVG кольцо
-            const strokeDashoffset = 502 - (502 * percent) / 100;
-            document.getElementById('result-ring').style.strokeDashoffset = strokeDashoffset;
-
-            // Время
             const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
             const secs = String(secondsElapsed % 60).padStart(2, '0');
             document.getElementById('result-time').innerText = `${mins}:${secs}`;
 
-            // Оценка и Конфетти
-            let title = "";
-            let desc = "";
-            let rank = "";
-
-            if (percent === 100) {
-                title = "Царь Сербского! 👑";
-                desc = "Жива истина! Ты прошёл тест идеально. Ни одна коварная ловушка тебя не остановила!";
-                rank = "Србин Про Макс";
-                triggerConfetti(100); // Сильный салют
-            } else if (percent >= 80) {
-                title = "Отличный результат! 🚀";
-                desc = "Прекрасное понимание основ. Ты уже можешь уверенно строить простые фразы и правильно читать.";
-                rank = "Продвинутый";
-                triggerConfetti(40); // Мягкий салют
-            } else if (percent >= 50) {
-                title = "Хороший старт! 👍";
-                desc = "У тебя есть прочная база. Рекомендуется ещё раз заглянуть в шпаргалку, чтобы закрепить глагол «Быть».";
-                rank = "Студент";
-            } else {
-                title = "Нужно потренироваться 📚";
-                desc = "Не переживай! Сербский очень похож на русский, тебе просто нужно чуть больше внимания уделить деталям алфавита.";
-                rank = "Новичок";
-            }
+            let title = "", desc = "", rank = "";
+            if (pct === 100) { title = "Супер-результат! 👑"; desc = "Ты блестяще усвоил существительные и их множественное число."; rank = "Царь Грамматики"; triggerConfetti(); }
+            else if (pct >= 80) { title = "Отличная работа! 🚀"; desc = "Ты прекрасно справляешься. Очень сильный результат."; rank = "Профи"; triggerConfetti(); }
+            else if (pct >= 50) { title = "Хороший результат! 👍"; desc = "Основы понятны, но стоит еще раз просмотреть правила окончаний."; rank = "Знаток"; }
+            else { title = "Попробуй еще раз 📚"; desc = "Уделяй больше внимания окончаниям мужского и женского рода."; rank = "Новичок"; }
 
             document.getElementById('result-title').innerText = title;
             document.getElementById('result-desc').innerText = desc;
             document.getElementById('result-rank').innerText = rank;
         }
 
-        // Салют-эффект
-        function triggerConfetti(amount) {
-            const count = amount;
-            const defaults = {
-                origin: { y: 0.7 }
-            };
-
-            function fire(particleRatio, opts) {
-                confetti(Object.assign({}, defaults, opts, {
-                    particleCount: Math.floor(count * particleRatio)
-                }));
-            }
-
-            fire(0.25, {
-                spread: 26,
-                startVelocity: 55,
-            });
-            fire(0.2, {
-                spread: 60,
-            });
-            fire(0.35, {
-                spread: 100,
-                decay: 0.91,
-                scalar: 0.8
-            });
-            fire(0.1, {
-                spread: 120,
-                startVelocity: 25,
-                decay: 0.92,
-                scalar: 1.2
-            });
-            fire(0.1, {
-                spread: 120,
-                startVelocity: 45,
-            });
+        function triggerConfetti() {
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         }
 
-        // Показ разбора ошибок
         let isReviewOpen = false;
         function toggleReview() {
             const box = document.getElementById('review-box');
-            const btn = document.getElementById('review-btn');
             isReviewOpen = !isReviewOpen;
-
             if (isReviewOpen) {
                 box.classList.remove('hidden');
-                btn.innerText = "Скрыть отчет";
-                renderReview();
-                // Скролл к отчету
-                setTimeout(() => {
-                    box.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
+                document.getElementById('review-btn').innerText = "Скрыть";
+                const container = document.getElementById('review-items');
+                container.innerHTML = '';
+                userAnswers.forEach(ans => {
+                    const q = questions[ans.questionIndex];
+                    const item = document.createElement('div');
+                    item.className = `p-4 rounded-xl border ${ans.isCorrect ? 'border-emerald-500/20 bg-emerald-500/5' : 'border-red-500/20 bg-red-500/5'}`;
+                    item.innerHTML = `
+                        <div class="flex items-center gap-2 mb-1"><span class="text-lg">${ans.isCorrect ? '✅' : '❌'}</span><h4 class="font-bold text-white text-base">${q.text}</h4></div>
+                        <p class="text-xs text-slate-400 mb-2">Выбор: <strong class="${ans.isCorrect?'text-emerald-400':'text-red-400'}">${q.options[ans.selectedOption]}</strong></p>
+                        <p class="text-xs text-slate-300 bg-slate-900/40 p-2.5 rounded border border-slate-700/50">${q.explanation}</p>
+                    `;
+                    container.appendChild(item);
+                });
             } else {
                 box.classList.add('hidden');
-                btn.innerText = "Посмотреть ошибки";
+                document.getElementById('review-btn').innerText = "Ошибки";
             }
         }
 
-        function renderReview() {
-            const container = document.getElementById('review-items');
-            container.innerHTML = '';
-
-            userAnswers.forEach((ans) => {
-                const q = questions[ans.questionIndex];
-                const item = document.createElement('div');
-                item.className = `p-5 rounded-2xl border ${ans.isCorrect ? 'border-emerald-500/20 bg-emerald-500/5' : 'border-red-500/20 bg-red-500/5'}`;
-
-                item.innerHTML = `
-                    <div class="flex items-center gap-2 mb-2">
-                        <span>${ans.isCorrect ? '✅' : '❌'}</span>
-                        <h4 class="text-lg font-bold text-white">${q.text}</h4>
-                    </div>
-                    <p class="text-sm text-slate-400 mb-3">Твой выбор: <strong class="${ans.isCorrect ? 'text-emerald-400' : 'text-red-400'}">${q.options[ans.selectedOption]}</strong></p>
-                    <div class="text-sm text-slate-300 bg-slate-900/40 p-3 rounded-lg border border-slate-700/50">
-                        <strong class="text-blue-400 block mb-1">Почему так:</strong>
-                        ${q.explanation}
-                    </div>
-                `;
-                container.appendChild(item);
-            });
-        }
-
-        // Перезапуск
         function restartQuiz() {
             document.getElementById('result-screen').classList.add('hidden');
             document.getElementById('review-box').classList.add('hidden');
-            document.getElementById('review-btn').innerText = "Посмотреть ошибки";
+            document.getElementById('review-btn').innerText = "Ошибки";
             isReviewOpen = false;
             startQuiz();
         }
